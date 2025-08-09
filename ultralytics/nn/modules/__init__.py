@@ -102,6 +102,8 @@ from .transformer import (
     TransformerLayer,
 )
 
+from .attn_extra import CBAM, ERFBlock
+
 __all__ = (
     "Conv",
     "Conv2",
@@ -179,4 +181,9 @@ __all__ = (
     "TorchVision",
     "Index",
     "A2C2f",
+)
+
+__all__ += (
+    "CBAM",
+    "ERFBlock",
 )
