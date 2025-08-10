@@ -102,7 +102,7 @@ from .transformer import (
     TransformerLayer,
 )
 
-from .attn_extra import CBAM, ERFBlock
+from .attn_extra import CCBAM, CErfBlock
 
 __all__ = (
     "Conv",
@@ -184,6 +184,6 @@ __all__ = (
 )
 
 __all__ += (
-    "CBAM",
-    "ERFBlock",
+    "CCBAM",
+    "CErfBlock",
 )

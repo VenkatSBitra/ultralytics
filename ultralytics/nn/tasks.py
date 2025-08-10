@@ -69,6 +69,7 @@ from ultralytics.nn.modules import (
     YOLOESegment,
     v10Detect,
 )
+from ultralytics.nn.modules import CCBAM, CErfBlock
 from ultralytics.utils import DEFAULT_CFG_DICT, DEFAULT_CFG_KEYS, LOGGER, YAML, colorstr, emojis
 from ultralytics.utils.checks import check_requirements, check_suffix, check_yaml
 from ultralytics.utils.loss import (
@@ -1732,6 +1733,14 @@ def parse_model(d, ch, verbose=True):
             c2 = args[0]
             c1 = ch[f]
             args = [*args[1:]]
+        elif m is CCBAM: # <--- ADDED
+            c1 = ch[f] # <--- ADDED
+            c2 = c1  # CCBAM preserves channel dimension # <--- ADDED
+            args = [c1, *args] # <--- ADDED
+        elif m is CErfBlock: # <--- ADDED
+            c1 = ch[f] # <--- ADDED
+            c2 = c1 # CErfBlock preserves channel dimension # <--- ADDED
+            args = [c1, *args] # <--- ADDED
         else:
             c2 = ch[f]
 

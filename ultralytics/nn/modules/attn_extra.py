@@ -4,7 +4,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 # ---------- CBAM ----------
-class ChannelAttention(nn.Module):
+class CChannelAttention(nn.Module):
     def __init__(self, channels, reduction=16):
         super().__init__()
         mid = max(1, channels // reduction)
@@ -20,7 +20,7 @@ class ChannelAttention(nn.Module):
         w = torch.sigmoid(self.mlp(avg) + self.mlp(mx))  # [B,C,1,1]
         return x * w, w
 
-class SpatialAttention(nn.Module):
+class CSpatialAttention(nn.Module):
     def __init__(self, kernel_size=7):
         super().__init__()
         padding = (kernel_size - 1) // 2
@@ -32,12 +32,12 @@ class SpatialAttention(nn.Module):
         a = torch.sigmoid(self.conv(torch.cat([avg, mx], dim=1)))  # [B,1,H,W]
         return x * a, a
 
-class CBAM(nn.Module):
+class CCBAM(nn.Module):
     """CBAM with optional attention-map return."""
     def __init__(self, channels, reduction=16, sa_kernel=7, return_maps=False):
         super().__init__()
-        self.ca = ChannelAttention(channels, reduction)
-        self.sa = SpatialAttention(sa_kernel)
+        self.ca = CChannelAttention(channels, reduction)
+        self.sa = CSpatialAttention(sa_kernel)
         self.return_maps = return_maps
         self.last_maps = {}  # {"ca": [B,C,1,1], "sa": [B,1,H,W]}
 
@@ -49,7 +49,7 @@ class CBAM(nn.Module):
         return y
 
 # ---------- ERF-style receptive-field block ----------
-class ERFBlock(nn.Module):
+class CErfBlock(nn.Module):
     """
     Lightweight receptive-field expansion via dilated 3x3 branches + 1x1 fuse (+ residual).
     """
